@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost & Found</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">UNN CampusRecover</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#report">Report Lost Item</a></li>
+            <li><a href="#feed">Found Items</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Lost something on campus?</h1>
+        <p>Don't panic. Report it here and let the student community help you find it.</p>
+    <br>
+        <button class="btn-primary">View Found Items</button>
+    </header>
+
+    <section id="report">
+        <h2>Report a Lost Item</h2>
+        <form id="lostItemForm">
+            <input type="text" id="itemName" placeholder="What did you lose?" required>
+            <input type="text" id="location" placeholder="Where did you lose it?" required>
+            <input type="date" id="lostDate" required>
+            <textarea id="details" placeholder="Any other details..."></textarea>
+            <button type="submit">Submit Report</button>
+        </form>
+        
+        <div id="itemsGrid" class="items-grid"></div>
+    </section>
+
+    <section id="feed">
+        <h2>Recently Found Items</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for an item (e.g. Wallet)..." onkeyup="searchItems()">
+        </div>
+        <p id="noResults" style="display: none; text-align: center; color: #666;">No items match your search. Try another keyword!</p>
+        <div class="items-grid">
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Scooter Bike</h3>
+                <p>Location: GS Building</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Scientific Calculator</h3>
+                <p>Location: Abuja Building</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Tote Bag</h3>
+                <p>Location: ESA Building</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Engineering Mathematics TextBook</h3>
+                <p>Location: FST Building</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>iPhone X</h3>
+                <p>Location: Roar Nigeria Hub</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Power Bank</h3>
+                <p>Location: Computer Science HOD Office</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>VAN 201 Note</h3>
+                <p>Location: Veterinary Medicine Lecture Hall</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>ATM Card</h3>
+                <p>Location: Social Science Quadrangle</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Office Bag</h3>
+                <p>Location: MetMat Building</p>
+                <button>Claim Item</button>
+            </div>
+            <div class="item-card">
+                <div class="status">Found</div>
+                <h3>Student ID Card</h3>
+                <p>Location: ESA Building</p>
+                <button>Claim Item</button>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
