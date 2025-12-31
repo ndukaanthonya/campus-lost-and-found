@@ -5,7 +5,7 @@ const app = express();
 
 // --- MIDDLEWARES ---
 app.use(express.json()); 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // --- DATABASE CONNECTION ---
 const dbURI = 'mongodb+srv://ndukaanthonya:CT3irktoTTSfkr1o@cluster0.xksjxbb.mongodb.net/lostandfound?appName=Cluster0RE';
