@@ -144,30 +144,32 @@ button:hover {
 
 /* Hero Section Background */
 .hero-section {
-    position: relative; /* This creates a container for the image */
+    position: relative;
     width: 100%;
     height: 450px;
-    overflow: hidden; /* Hides image parts that stick out */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    background: #2e7d32; /* Fallback color if image fails */
 }
 
 .hero-bg-img {
-    position: absolute; /* Positions image behind the text */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This is the magic: it keeps the image from looking squashed */
-    z-index: -1; /* Pushes image to the very back */
-    filter: brightness(50%); /* This makes the image darker so text is readable */
+    object-fit: cover; /* Ensures image isn't stretched */
+    z-index: 1;
+    filter: brightness(50%); /* Makes text easier to read */
 }
 
 .hero-content {
+    position: relative;
+    z-index: 2; /* Keeps text above the image */
     text-align: center;
-    z-index: 1; /* Makes sure text stays in front */
 }
 
 /* Info Hub Centering */
@@ -203,4 +205,24 @@ button:hover {
 
 .map-frame iframe {
     display: block; /* Removes any tiny gaps at the bottom */
+}
+.directions-btn {
+    display: inline-block;
+    background-color: #2e7d32;
+    color: white !important;
+    padding: 15px 35px;
+    border-radius: 50px; /* Makes it perfectly rounded */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.directions-btn:hover {
+    background-color: #1b5e20;
+    transform: translateY(-3px); /* Lifts up slightly when hovered */
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
 }
