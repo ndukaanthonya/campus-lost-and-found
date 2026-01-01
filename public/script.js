@@ -67,25 +67,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 3. Search function for the Recently Found section
 function searchItems() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
+    let input = document.getElementById('searchInput').value.toLowerCase().trim();
     let cards = document.querySelectorAll('.item-card');
     let noResults = document.getElementById('noResults');
-    let found = false;
+    let foundCount = 0;
+
+    // Split input into keywords for "Smart Matching"
+    let keywords = input.split(" ");
 
     cards.forEach(card => {
         let title = card.querySelector('h3').innerText.toLowerCase();
-        if (title.includes(input)) {
+        let details = card.querySelector('p').innerText.toLowerCase();
+        
+        // Smart Logic: Does the item match ANY of the keywords?
+        let isMatch = keywords.some(keyword => title.includes(keyword) || details.includes(keyword));
+
+        if (input === "" || isMatch) {
             card.style.display = "block";
-            found = true;
+            foundCount++;
         } else {
             card.style.display = "none";
         }
     });
 
     if (noResults) {
-        noResults.style.display = found ? "none" : "block";
+        noResults.style.display = foundCount > 0 ? "none" : "block";
     }
 }
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Item Intake</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Administrator Intake Form</h2>
+        <p>Use this form to log items brought to the GS Building.</p>
+        <form id="lostItemForm">
+            <input type="text" id="itemName" placeholder="Item Name (e.g. Wallet)" required>
+            <input type="text" id="location" placeholder="Found Location" required>
+            <input type="date" id="lostDate" required>
+            <textarea id="details" placeholder="Private details (e.g. Serial number, specific contents)"></textarea>
+            <button type="submit">Upload to Public Feed</button>
+        </form>
+        <a href="index.html">← Back to Public View</a>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+</html>
