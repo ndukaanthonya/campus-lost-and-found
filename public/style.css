@@ -249,3 +249,46 @@ button:hover {
     transform: translateY(-3px); /* Lifts up slightly when hovered */
     box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
 }
+
+/* Dark Mode Colors */
+body.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-theme .main-nav {
+    background-color: #1e1e1e !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.dark-theme .nav-links a {
+    color: #ffffff;
+}
+
+.dark-theme .item-card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-top: 5px solid #4caf50; /* Brighter green for dark mode */
+}
+
+.dark-theme .info-hub, .dark-theme .site-notification {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #4caf50;
+}
+
+/* The Toggle Button Styling */
+.mode-btn {
+    background: none;
+    border: 1px solid #2e7d32;
+    color: #2e7d32;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark-theme .mode-btn {
+    color: #ffcc00; /* Yellow moon for dark mode */
+    border-color: #ffcc00;
+}

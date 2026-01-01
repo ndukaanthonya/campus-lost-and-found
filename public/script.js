@@ -101,3 +101,25 @@ function searchItems() {
         noResults.style.display = foundCount > 0 ? "none" : "block";
     }
 }
+const toggleBtn = document.getElementById('dark-mode-toggle');
+const body = document.body;
+
+// Check if user previously chose dark mode
+if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-theme');
+}
+
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+        
+        // Save the choice so it stays dark even if they refresh
+        if (body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+            toggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'; // Change icon to Sun
+        } else {
+            localStorage.setItem('theme', 'light');
+            toggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>'; // Change icon to Moon
+        }
+    });
+}
