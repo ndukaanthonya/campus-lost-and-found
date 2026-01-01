@@ -45,12 +45,7 @@ app.get('/api/items', async (req, res) => {
     }
 });
 
-// --- VERCEL & LOCAL EXPORT ---
-module.exports = app;
-
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = 3000;
-    app.listen(PORT, () => {
-        console.log(`Server live at http://localhost:${PORT} 🚀`);
-    });
-}
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
