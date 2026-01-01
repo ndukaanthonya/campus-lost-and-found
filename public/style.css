@@ -84,43 +84,62 @@ header h1 {
 }
 
 /* 3. The Report Form */
-#report {
-    max-width: 600px;
-    margin: 50px auto;
+/* Container for the Admin Form */
+.admin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 80vh; /* Keeps it centered vertically on the screen */
+}
+
+/* The actual Form styling */
+#lostItemForm {
     background: white;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px; /* This prevents it from stretching too wide */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds even space between all inputs */
 }
 
-#report h2 {
-    margin-bottom: 20px;
-    color: #004d40;
+/* Dark mode support for the form */
+.dark-theme #lostItemForm {
+    background: #1e1e1e;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-form input, form textarea {
+/* Styling the inputs to look uniform */
+#lostItemForm input, 
+#lostItemForm select, 
+#lostItemForm textarea {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
 }
 
-button {
-    background: #004d40;
+/* The Submit Button */
+#lostItemForm button {
+    background-color: #2e7d32;
     color: white;
-    padding: 12px 25px;
+    padding: 15px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 8px;
     font-weight: bold;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-button:hover {
-    background: #00796b;
+#lostItemForm button:hover {
+    background-color: #1b5e20;
 }
-
 /* 4. Found Items Feed Grid */
 #feed {
     padding: 50px 5%;
