@@ -8,16 +8,20 @@ async function loadItems() {
         if (!grid) return; // Safety check
         grid.innerHTML = ''; // Clear the grid before loading
 
-        items.forEach(item => {
+        items.reverse().forEach(item => { // .reverse() shows the newest items first
             const card = document.createElement('div');
             card.className = 'item-card';
+            
+            // This builds the card using the Icon Class you selected in manage.html
             card.innerHTML = `
-                <div class="status">Reported</div>
-                <h3>${item.name}</h3>
-                <p><strong>Location:</strong> ${item.location}</p>
-                <p>${item.details || 'No extra details'}</p>
-                <small>Date: ${item.date}</small>
-                <br><br>
+                <div class="card-header" style="text-align: center; padding: 15px;">
+                    <i class="fa-solid ${item.iconClass || 'fa-box'} fa-3x" style="color: #2e7d32;"></i>
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <h3>${item.name}</h3>
+                    <p><strong>Found at:</strong> ${item.location}</p>
+                    <small>Date: ${item.date}</small>
+                </div>
             `;
             grid.appendChild(card);
         });
@@ -26,7 +30,7 @@ async function loadItems() {
     }
 }
 
-// 2. Handle Form Submission and DOM Loading
+// 2. Handle Form Submission and Page Loading
 document.addEventListener('DOMContentLoaded', () => {
     // Initial load of items from database
     loadItems();
@@ -37,8 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); 
             console.log("Submit button clicked! Processing...");
 
+            // Grabbing all data including the Font Awesome icon class
             const formData = {
                 name: document.getElementById('itemName').value,
+                iconClass: document.getElementById('itemIcon').value, 
                 location: document.getElementById('location').value,
                 date: document.getElementById('lostDate').value,
                 details: document.getElementById('details').value
@@ -52,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    alert("Report Submitted Successfully! ✅");
+                    alert("Item Logged Successfully! ✅");
                     form.reset(); 
                     loadItems(); // Refresh the list automatically
                 } else {
@@ -66,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// 3. Smart Search Function
 function searchItems() {
     let input = document.getElementById('searchInput').value.toLowerCase().trim();
     let cards = document.querySelectorAll('.item-card');
@@ -94,6 +101,3 @@ function searchItems() {
         noResults.style.display = foundCount > 0 ? "none" : "block";
     }
 }
-
-// Ensure this is at the bottom of script.js
-document.addEventListener('DOMContentLoaded', loadItems);

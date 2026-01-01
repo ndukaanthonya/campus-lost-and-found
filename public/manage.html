@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin - Item Intake</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
         const password = prompt("Please enter the Administrator Password to log items:");
         
@@ -17,12 +18,39 @@
     <div class="admin-container">
         <h2>Administrator Intake Form</h2>
         <p>Use this form to log items brought to the GS Building.</p>
+        
         <form id="lostItemForm">
-            <input type="text" id="itemName" placeholder="Item Name (e.g. Wallet)" required>
-            <input type="text" id="location" placeholder="Found Location" required>
+            <input type="text" id="itemName" placeholder="Item Name (e.g. Science Book)" required>
+            
+            <label>Choose Matching Icon:</label>
+            <select id="itemIcon" class="admin-input">
+                <option value="fa-book">📖 Book</option>
+                <option value="fa-bicycle">🚲 Bicycle</option>
+                <option value="fa-mobile-screen">📱 Mobile Phone</option>
+                <option value="fa-laptop">💻 Laptop</option>
+                <option value="fa-wallet">👛 Wallet / Purse</option>
+                <option value="fa-key">🔑 Keys</option>
+                <option value="fa-glasses">👓 Glasses</option>
+                <option value="fa-shirt">👕 Clothing</option>
+                <option value="fa-credit-card">💳 ID / ATM Card</option>
+                <option value="fa-headphones">🎧 Headphones</option>
+                <option value="fa-umbrella">🌂 Umbrella</option>
+                <option value="fa-watch">⌚ Watch</option>
+                <option value="fa-bottle-water">🍼 Water Bottle</option>
+                <option value="fa-briefcase">💼 Office Bag</option>
+                <option value="fa-pen-nib">🖋️ Pen / Stationery</option>
+                <option value="fa-calculator">🔢 Calculator</option>
+                <option value="fa-bolt">🔋 Power Bank</option>
+                <option value="fa-graduation-cap">🎓 Cap / Gown</option>
+                <option value="fa-football">⚽ Sports Ball</option>
+                <option value="fa-tools">🛠️ Tools</option>
+                <option value="fa-box-open">📦 Miscellaneous</option>
+            </select>
+        
+            <input type="text" id="location" placeholder="Where was it found?" required>
             <input type="date" id="lostDate" required>
-            <textarea id="details" placeholder="Private details (e.g. Serial number, specific contents)"></textarea>
-            <button type="submit">Upload to Public Feed</button>
+            <textarea id="details" placeholder="Secret description (for verification)"></textarea>
+            <button type="submit">Upload Item</button>
         </form>
         <a href="index.html">← Back to Public View</a>
     </div>
