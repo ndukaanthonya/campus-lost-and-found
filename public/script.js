@@ -18,7 +18,6 @@ async function loadItems() {
                 <p>${item.details || 'No extra details'}</p>
                 <small>Date: ${item.date}</small>
                 <br><br>
-                <button onclick="claimItem('${item.name}')">I Found This!</button>
             `;
             grid.appendChild(card);
         });
