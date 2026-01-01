@@ -66,7 +66,15 @@
         <h2>Recently Found Items</h2>
         
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for an item (e.g. Wallet)..." onkeyup="searchItems()">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()">
+                <button id="voiceSearchBtn" title="Search with AI Voice">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+            </div>
+            <p id="voiceStatus" style="display: none; font-size: 0.8rem; color: #2e7d32; margin-top: 5px;">
+                <i class="fa-solid fa-circle-dot fa-beat"></i> AI is listening...
+            </p>
         </div>
 
         <div id="itemsGrid" class="items-grid">

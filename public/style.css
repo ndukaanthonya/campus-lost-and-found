@@ -311,3 +311,45 @@ body.dark-theme {
     color: #ffcc00; /* Yellow moon for dark mode */
     border-color: #ffcc00;
 }
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 15px 50px 15px 20px; /* Space on right for the mic */
+    border-radius: 30px;
+    border: 2px solid #2e7d32;
+    outline: none;
+}
+
+#voiceSearchBtn {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #2e7d32;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#voiceSearchBtn:hover {
+    color: #ff0000; /* Red when you hover to show it's a mic */
+}
+
+/* Pulse animation when AI is listening */
+.listening {
+    color: #ff0000 !important;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}

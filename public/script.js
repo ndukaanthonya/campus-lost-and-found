@@ -123,3 +123,46 @@ if (toggleBtn) {
         }
     });
 }
+// AI Voice Search Implementation
+const voiceBtn = document.getElementById('voiceSearchBtn');
+const voiceStatus = document.getElementById('voiceStatus');
+const searchInput = document.getElementById('searchInput');
+
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    voiceBtn.addEventListener('click', () => {
+        recognition.start();
+        voiceBtn.classList.add('listening');
+        voiceStatus.style.display = 'block';
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        // The AI removes punctuation and fills the search bar
+        searchInput.value = transcript.replace('.', ''); 
+        
+        voiceBtn.classList.remove('listening');
+        voiceStatus.style.display = 'none';
+        
+        // Trigger the search automatically
+        searchItems(); 
+    };
+
+    recognition.onerror = () => {
+        voiceBtn.classList.remove('listening');
+        voiceStatus.style.display = 'none';
+        alert("Voice recognition error. Please try again.");
+    };
+
+    recognition.onend = () => {
+        voiceBtn.classList.remove('listening');
+        voiceStatus.style.display = 'none';
+    };
+} else {
+    voiceBtn.style.display = 'none'; // Hide if browser doesn't support it
+    console.log("Speech recognition not supported in this browser.");
+}
