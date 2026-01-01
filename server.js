@@ -5,7 +5,7 @@ const app = express();
 
 // --- MIDDLEWARES ---
 app.use(express.json()); 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // --- DATABASE CONNECTION ---
 const dbURI = 'mongodb+srv://ndukaanthonya:CT3irktoTTSfkr1o@cluster0.xksjxbb.mongodb.net/lostandfound?appName=Cluster0RE';
@@ -24,11 +24,8 @@ const Item = mongoose.model('Item', new mongoose.Schema({
 
 // This tells the server: "When someone visits the home page, send them index.html"
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-// Keep your existing static line for CSS/JS
-app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // --- ROUTES ---
 
