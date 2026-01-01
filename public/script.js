@@ -96,7 +96,5 @@ function searchItems() {
     }
 }
 
-// 4. Function to handle claiming an item
-function claimItem(itemName) {
-    alert(`Thank you! A notification has been sent regarding the "${itemName}". Please check your campus email for meeting details.`);
-}
+// Ensure this is at the bottom of script.js
+document.addEventListener('DOMContentLoaded', loadItems);

@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Admin - Item Intake</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        const password = prompt("Please enter the Administrator Password to log items:");
+        
+        if (password !== "MrIzu2026") {
+            alert("Access Denied. Redirecting to public view...");
+            window.location.href = "index.html";
+        }
+    </script>
 </head>
 <body>
     <div class="admin-container">
