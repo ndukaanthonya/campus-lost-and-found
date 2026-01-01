@@ -22,6 +22,14 @@ const Item = mongoose.model('Item', new mongoose.Schema({
     details: String
 }));
 
+// This tells the server: "When someone visits the home page, send them index.html"
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Keep your existing static line for CSS/JS
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 // --- ROUTES ---
 
 // POST: Save a new item
