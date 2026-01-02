@@ -71,16 +71,6 @@ app.get("/api/reservations", async (req, res) => {
     } catch (err) { res.status(500).send(err); }
 });
 
-app.get("/setup-admin", async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash("MrIzu2026", 10);
-        await Admin.deleteMany({ username: "admin" });
-        const newAdmin = new Admin({ username: "admin", password: hashedPassword });
-        await newAdmin.save();
-        res.send("Admin Created.");
-    } catch (err) { res.status(500).send(err); }
-});
-
 app.use(express.static("public"));
 
 function checkAuth(req, res, next) {
