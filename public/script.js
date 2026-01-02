@@ -1,25 +1,70 @@
-// --- 1. Load Items from Database ---
+// --- 1. Load Items & Sort by Status ---
 async function loadItems() {
     try {
         const response = await fetch('/api/items');
         const items = await response.json();
-        const grid = document.getElementById('itemsGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
+        
+        const activeGrid = document.getElementById('itemsGrid');
+        const claimedGrid = document.getElementById('claimedGrid');
+        
+        if (activeGrid) activeGrid.innerHTML = '';
+        if (claimedGrid) claimedGrid.innerHTML = '';
 
         items.reverse().forEach(item => {
+            const isClaimed = item.status === 'claimed';
             const card = document.createElement('div');
             card.className = 'item-card';
+            
+            // Add Admin Controls if we are on manage.html
+            const isAdmin = window.location.pathname.includes('manage.html');
+            let adminHTML = '';
+            
+            if (isAdmin) {
+                adminHTML = `
+                    <div class="admin-tools" style="margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
+                        ${!isClaimed ? `<button onclick="updateStatus('${item._id}', 'claimed')" style="background:#2e7d32; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Mark Claimed</button>` : ''}
+                        <button onclick="deleteItem('${item._id}')" style="background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Delete</button>
+                    </div>
+                `;
+            }
+
             card.innerHTML = `
-                <div style="margin-bottom:15px;"><i class="fa-solid ${item.iconClass || 'fa-box'} fa-3x" style="color: #2e7d32;"></i></div>
-                <h3>${item.name}</h3>
+                <div style="margin-bottom:15px;"><i class="fa-solid ${item.iconClass || 'fa-box'} fa-3x" style="color: ${isClaimed ? '#666' : '#2e7d32'};"></i></div>
+                <h3>${item.name} ${isClaimed ? '(Claimed ✅)' : ''}</h3>
                 <p><strong>At:</strong> ${item.location}</p>
-                <div class="card-body" style="display:none;">${item.details || ''}</div>
                 <small>${item.date}</small>
+                ${adminHTML}
             `;
-            grid.appendChild(card);
+
+            if (isClaimed) {
+                if (claimedGrid) claimedGrid.appendChild(card);
+            } else {
+                if (activeGrid) activeGrid.appendChild(card);
+            }
         });
-    } catch (err) { console.error("Load Error:", err); }
+    } catch (err) { console.error(err); }
+}
+
+// --- 2. Admin Actions: Update Status ---
+async function updateStatus(id, newStatus) {
+    if (!confirm("Mark this item as successfully claimed?")) return;
+    try {
+        await fetch(`/api/items/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus })
+        });
+        loadItems(); // Refresh view
+    } catch (err) { alert("Error updating item"); }
+}
+
+// --- 3. Admin Actions: Delete (Trash Can) ---
+async function deleteItem(id) {
+    if (!confirm("Are you sure you want to permanently delete this record?")) return;
+    try {
+        await fetch(`/api/items/${id}`, { method: 'DELETE' });
+        loadItems(); // Refresh view
+    } catch (err) { alert("Error deleting item"); }
 }
 
 // --- 2. Smart Search Logic ---
