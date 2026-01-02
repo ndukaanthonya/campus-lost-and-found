@@ -19,7 +19,8 @@ const Item = mongoose.model('Item', new mongoose.Schema({
     name: String,
     location: String,
     date: String,
-    details: String
+    details: String,
+    status: { type: String, default: 'active' }
 }));
 
 // This tells the server: "When someone visits the home page, send them index.html"
@@ -28,6 +29,29 @@ app.get('/', (req, res) => {
 });
 
 // --- ROUTES ---
+// ROUTE 1: Mark as Claimed (PATCH)
+app.patch('/api/items/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        // Update the status in the database
+        await Item.findByIdAndUpdate(id, { status: status });
+        res.status(200).send({ message: "Item status updated!" });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// ROUTE 2: Delete Item (DELETE)
+app.delete('/api/items/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Item.findByIdAndDelete(id);
+        res.status(200).send({ message: "Item deleted successfully!" });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 // POST: Save a new item
 app.post('/api/report', async (req, res) => {
