@@ -55,8 +55,12 @@ app.post("/api/reserve", async (req, res) => {
     try {
         const newRes = new Reservation(req.body);
         await newRes.save();
-        res.status(200).json({ success: true });
-    } catch (err) { res.status(500).send(err); }
+        // Send JSON so the frontend script can show an alert without refreshing
+        res.status(200).json({ success: true, message: "Reservation received" });
+    } catch (err) { 
+        console.error("Reservation Error:", err);
+        res.status(500).json({ success: false, error: err.message }); 
+    }
 });
 
 // Admin view reservations

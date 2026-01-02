@@ -1,63 +1,27 @@
-// --- 1. INITIALIZATION (Runs when page loads) ---
 document.addEventListener('DOMContentLoaded', () => {
-    loadItems(); // Load the found items
+    loadItems();
     if (window.location.pathname.includes('manage.html')) {
-        loadReservations(); // Only load reservations if on Admin page
+        loadReservations();
     }
-    setupDarkMode(); // Start the Dark Mode logic
-    setupVoiceSearch(); // Start the AI Voice logic
+    setupDarkMode();
 });
 
-// --- 2. DARK MODE LOGIC ---
+// --- DARK MODE ---
 function setupDarkMode() {
     const toggleBtn = document.getElementById('dark-mode-toggle');
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
     
-    // Check if user previously chose dark mode
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
-
     toggleBtn?.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
-        const isDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
     });
 }
 
-// --- 3. AI VOICE SEARCH LOGIC ---
-function setupVoiceSearch() {
-    const voiceBtn = document.getElementById('voiceSearchBtn');
-    const voiceStatus = document.getElementById('voiceStatus');
-    const searchInput = document.getElementById('searchInput');
-
-    // Check if the browser supports Voice
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-
-        voiceBtn.addEventListener('click', () => {
-            recognition.start();
-            voiceStatus.style.display = 'block'; // Show "AI is listening"
-        });
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            searchInput.value = transcript;
-            searchItems(); // Filter the items immediately
-            voiceStatus.style.display = 'none';
-        };
-
-        recognition.onend = () => { voiceStatus.style.display = 'none'; };
-    }
-}
-
-// --- 4. DATA LOADING (Items & Reservations) ---
+// --- DATA LOADING ---
 async function loadItems() {
     try {
         const response = await fetch('/api/items');
         const items = await response.json();
-        
         const activeGrid = document.getElementById('itemsGrid');
         const claimedGrid = document.getElementById('claimedGrid');
         
@@ -78,7 +42,8 @@ async function loadItems() {
                         <button onclick="deleteItem('${item._id}')" class="delete-btn">Delete</button>
                     </div>`;
             } else if (!isClaimed) {
-                actionButtons = `<button class="claim-btn" style="width:100%; margin-top:10px;" onclick="openModal('${item._id}', '${item.name}')">Reserve Item</button>`;
+                // Home page: Specific Reserve Button
+                actionButtons = `<button class="claim-btn" style="width:100%; margin-top:10px; background-color:#2e7d32;" onclick="openModal('${item._id}', '${item.name}')">Reserve Item</button>`;
             }
 
             card.innerHTML = `
@@ -95,7 +60,7 @@ async function loadItems() {
     } catch (err) { console.error(err); }
 }
 
-// --- 5. SEARCH LOGIC ---
+// --- SEARCH (Text only) ---
 function searchItems() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const activeCards = document.querySelectorAll('#itemsGrid .item-card');
@@ -105,7 +70,7 @@ function searchItems() {
     });
 }
 
-// --- 6. MODAL CONTROL ---
+// --- RESERVATION MODAL & NO-REFRESH LOGIC ---
 function openModal(id, name) {
     document.getElementById('reserveModal').style.display = 'flex';
     document.getElementById('modalItemName').innerText = name;
@@ -114,3 +79,49 @@ function openModal(id, name) {
 }
 
 function closeModal() { document.getElementById('reserveModal').style.display = 'none'; }
+
+// The listener that stops the page refresh
+document.getElementById('reserveForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault(); // This is the crucial line!
+
+    const data = {
+        itemId: document.getElementById('resItemId').value,
+        itemName: document.getElementById('resItemTitle').value,
+        fullName: document.getElementById('resFullName').value,
+        email: document.getElementById('resEmail').value,
+        phone: document.getElementById('resPhone').value,
+        userType: document.getElementById('resUserType').value,
+        comment: document.getElementById('resComment').value
+    };
+
+    const res = await fetch('/api/reserve', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+
+    if (res.ok) { 
+        alert('Success! Your reservation request has been sent to the UNN Admin.'); 
+        closeModal(); 
+        document.getElementById('reserveForm').reset();
+    } else {
+        alert('Error submitting reservation. Please try again.');
+    }
+});
+
+// Admin side: load the messages
+async function loadReservations() {
+    const resList = document.getElementById('reservationList');
+    if (!resList) return;
+    const response = await fetch('/api/reservations');
+    const data = await response.json();
+    resList.innerHTML = data.map(r => `
+        <div class="item-card" style="text-align:left; border-left:5px solid #2e7d32; padding:15px; margin-bottom:10px;">
+            <h4 style="color:#2e7d32">Target Item: ${r.itemName}</h4>
+            <p><strong>Sender:</strong> ${r.fullName} (${r.userType})</p>
+            <p><strong>Contact:</strong> ${r.phone} | ${r.email}</p>
+            <p><strong>Note:</strong> ${r.comment}</p>
+            <small style="color:#999">${new Date(r.dateSent).toLocaleString()}</small>
+        </div>
+    `).join('');
+}
