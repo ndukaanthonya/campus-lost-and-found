@@ -124,45 +124,60 @@ if (toggleBtn) {
     });
 }
 // AI Voice Search Implementation
-const voiceBtn = document.getElementById('voiceSearchBtn');
-const voiceStatus = document.getElementById('voiceStatus');
-const searchInput = document.getElementById('searchInput');
-
 if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    
+    // THE FIXES:
+    recognition.continuous = true;    // Don't stop when I pause
+    recognition.interimResults = true; // Show me text while I am talking
     recognition.lang = 'en-US';
 
+    let isListening = false;
+
     voiceBtn.addEventListener('click', () => {
-        recognition.start();
-        voiceBtn.classList.add('listening');
-        voiceStatus.style.display = 'block';
+        if (!isListening) {
+            // Start listening
+            searchInput.value = ''; // Clear search bar
+            recognition.start();
+            isListening = true;
+            voiceBtn.classList.add('listening');
+            voiceStatus.style.display = 'block';
+            voiceStatus.innerHTML = '<i class="fa-solid fa-circle-dot fa-beat"></i> AI is listening (Tap to stop)...';
+        } else {
+            // Manual Stop (The "I'm Done" tap)
+            recognition.stop();
+        }
     });
 
     recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        // The AI removes punctuation and fills the search bar
-        searchInput.value = transcript.replace('.', ''); 
-        
-        voiceBtn.classList.remove('listening');
-        voiceStatus.style.display = 'none';
-        
-        // Trigger the search automatically
-        searchItems(); 
-    };
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript;
+            } else {
+                // This updates the search bar live as you speak
+                searchInput.value = event.results[i][0].transcript;
+            }
+        }
 
-    recognition.onerror = () => {
-        voiceBtn.classList.remove('listening');
-        voiceStatus.style.display = 'none';
-        alert("Voice recognition error. Please try again.");
+        if (finalTranscript !== '') {
+            searchInput.value = finalTranscript;
+            searchItems(); // Trigger the AI search logic immediately
+        }
     };
 
     recognition.onend = () => {
+        isListening = false;
         voiceBtn.classList.remove('listening');
         voiceStatus.style.display = 'none';
+        console.log("AI ready for next command.");
     };
+
+    recognition.onerror = (event) => {
+        console.error("Speech Error:", event.error);
+        recognition.stop();
+    };
+
 } else {
-    voiceBtn.style.display = 'none'; // Hide if browser doesn't support it
-    console.log("Speech recognition not supported in this browser.");
+    voiceBtn.style.display = 'none';
 }
