@@ -37,12 +37,11 @@ async function loadItems() {
             let actionButtons = '';
             if (isAdminPage) {
                 actionButtons = `
-                    <div class="admin-tools">
+                    <div class="admin-tools" style="margin-top:10px;">
                         ${!isClaimed ? `<button onclick="updateStatus('${item._id}', 'claimed')" class="claim-btn">Claimed</button>` : ''}
                         <button onclick="deleteItem('${item._id}')" class="delete-btn">Delete</button>
                     </div>`;
             } else if (!isClaimed) {
-                // Home page: Specific Reserve Button
                 actionButtons = `<button class="claim-btn" style="width:100%; margin-top:10px; background-color:#2e7d32;" onclick="openModal('${item._id}', '${item.name}')">Reserve Item</button>`;
             }
 
@@ -60,7 +59,7 @@ async function loadItems() {
     } catch (err) { console.error(err); }
 }
 
-// --- SEARCH (Text only) ---
+// --- SEARCH ---
 function searchItems() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const activeCards = document.querySelectorAll('#itemsGrid .item-card');
@@ -70,7 +69,7 @@ function searchItems() {
     });
 }
 
-// --- RESERVATION MODAL & NO-REFRESH LOGIC ---
+// --- RESERVATION MODAL ---
 function openModal(id, name) {
     document.getElementById('reserveModal').style.display = 'flex';
     document.getElementById('modalItemName').innerText = name;
@@ -80,10 +79,8 @@ function openModal(id, name) {
 
 function closeModal() { document.getElementById('reserveModal').style.display = 'none'; }
 
-// The listener that stops the page refresh
 document.getElementById('reserveForm')?.addEventListener('submit', async (e) => {
-    e.preventDefault(); // This is the crucial line!
-
+    e.preventDefault();
     const data = {
         itemId: document.getElementById('resItemId').value,
         itemName: document.getElementById('resItemTitle').value,
@@ -101,15 +98,13 @@ document.getElementById('reserveForm')?.addEventListener('submit', async (e) => 
     });
 
     if (res.ok) { 
-        alert('Success! Your reservation request has been sent to the UNN Admin.'); 
+        alert('Success! Admin will review your request.'); 
         closeModal(); 
         document.getElementById('reserveForm').reset();
-    } else {
-        alert('Error submitting reservation. Please try again.');
     }
 });
 
-// Admin side: load the messages
+// --- ADMIN: LOAD RESERVATIONS ---
 async function loadReservations() {
     const resList = document.getElementById('reservationList');
     if (!resList) return;
@@ -117,11 +112,10 @@ async function loadReservations() {
     const data = await response.json();
     resList.innerHTML = data.map(r => `
         <div class="item-card" style="text-align:left; border-left:5px solid #2e7d32; padding:15px; margin-bottom:10px;">
-            <h4 style="color:#2e7d32">Target Item: ${r.itemName}</h4>
+            <h4>Item: ${r.itemName}</h4>
             <p><strong>Sender:</strong> ${r.fullName} (${r.userType})</p>
-            <p><strong>Contact:</strong> ${r.phone} | ${r.email}</p>
-            <p><strong>Note:</strong> ${r.comment}</p>
-            <small style="color:#999">${new Date(r.dateSent).toLocaleString()}</small>
+            <p><strong>Contact:</strong> ${r.phone}</p>
+            <p><strong>Message:</strong> ${r.comment}</p>
         </div>
     `).join('');
 }

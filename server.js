@@ -6,6 +6,7 @@ const path = require('path');
 
 const app = express();
 
+// --- 1. Middleware ---
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -16,11 +17,12 @@ app.use(session({
     cookie: { maxAge: 3600000 } 
 }));
 
+// --- 2. Database Connection ---
 mongoose.connect("mongodb+srv://ndukaanthonya:ITNAA2026@cluster0.xksjxbb.mongodb.net/?appName=Cluster0")
   .then(() => console.log("Connected to UNN Database"))
   .catch(err => console.log("DB Connection Error:", err));
 
-// --- SCHEMAS ---
+// --- 3. Schemas & Models ---
 const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
     iconClass: String,
@@ -48,19 +50,15 @@ const Admin = mongoose.model("Admin", new mongoose.Schema({
     password: { type: String, required: true }
 }));
 
-// --- ROUTES ---
+// --- 4. Routes ---
 
-// Reservation Route
+// Reservation Route (JSON Response)
 app.post("/api/reserve", async (req, res) => {
     try {
         const newRes = new Reservation(req.body);
         await newRes.save();
-        // Send JSON so the frontend script can show an alert without refreshing
-        res.status(200).json({ success: true, message: "Reservation received" });
-    } catch (err) { 
-        console.error("Reservation Error:", err);
-        res.status(500).json({ success: false, error: err.message }); 
-    }
+        res.status(200).json({ success: true, message: "Reservation saved" });
+    } catch (err) { res.status(500).json({ success: false }); }
 });
 
 // Admin view reservations
@@ -71,8 +69,10 @@ app.get("/api/reservations", async (req, res) => {
     } catch (err) { res.status(500).send(err); }
 });
 
+// Serve static files
 app.use(express.static("public"));
 
+// Auth Gatekeeper
 function checkAuth(req, res, next) {
     if (req.session.isAdmin) next();
     else res.redirect("/login.html");
@@ -84,7 +84,7 @@ app.post("/login", async (req, res) => {
     if (foundAdmin && await bcrypt.compare(password, foundAdmin.password)) {
         req.session.isAdmin = true;
         res.redirect("/manage.html");
-    } else res.send("Invalid Login.");
+    } else res.send("Invalid Login. <a href='/login.html'>Try again</a>");
 });
 
 app.get("/logout", (req, res) => { req.session.destroy(); res.redirect("/login.html"); });

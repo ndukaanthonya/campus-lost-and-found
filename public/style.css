@@ -1,4 +1,4 @@
-/* --- 1. Global Reset --- */
+/* --- 1. GLOBAL STYLES --- */
 * {
     margin: 0;
     padding: 0;
@@ -13,13 +13,13 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* --- 2. Navigation Bar --- */
+/* --- 2. NAVIGATION --- */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 5%;
-    background-color: #ffffff !important;
+    background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
@@ -43,14 +43,28 @@ body {
     align-items: center;
 }
 
-.nav-links a { text-decoration: none; color: #333; font-weight: 600; }
+.nav-links a { 
+    text-decoration: none; 
+    color: #333; 
+    font-weight: 600; 
+}
+
 .nav-links a:hover { color: #2e7d32; }
 
-/* --- 3. Hero Section --- */
+.mode-btn {
+    background: none;
+    border: 1px solid #2e7d32;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #2e7d32;
+}
+
+/* --- 3. HERO SECTION --- */
 .hero-section {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,14 +79,21 @@ body {
     top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover;
     z-index: 1;
-    filter: brightness(50%);
+    filter: brightness(40%);
 }
 
 .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-.hero-content h1 { font-size: 3rem; margin-bottom: 10px; }
+.hero-content h1 { font-size: 2.5rem; margin-bottom: 10px; }
 
-/* --- 4. Content & Info Hub --- */
-.info-hub { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+/* --- 4. INFO HUB & MAP --- */
+.info-hub { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 40px 20px; 
+    gap: 20px;
+}
+
 .site-notification {
     background-color: #e8f5e9;
     border: 2px solid #2e7d32;
@@ -80,24 +101,23 @@ body {
     padding: 20px;
     max-width: 800px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .map-frame {
     border: 4px solid #2e7d32;
     border-radius: 12px;
-    overflow: hidden; /* This crops the map to fit the rounded corners */
+    overflow: hidden;
     max-width: 800px;
     width: 100%;
-    height: 400px; /* Match the height of your iframe */
+    height: 400px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    position: relative;
 }
 
 .map-frame iframe {
-    width: 100% !important;
-    height: 100% !important;
-    display: block; /* Removes tiny bottom gaps */
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
 }
 
 .directions-btn {
@@ -108,37 +128,28 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    margin-top: 25px;
     transition: 0.3s;
 }
 
-/* --- 5. AI Search & Grid --- */
+.directions-btn:hover {
+    background-color: #1b5e20;
+    transform: translateY(-2px);
+}
+
+/* --- 5. SEARCH & GRID --- */
 #feed { padding: 50px 5%; }
+
 .search-wrapper {
-    position: relative;
     max-width: 600px;
     margin: 0 auto 30px auto;
 }
 
 #searchInput {
     width: 100%;
-    padding: 15px 60px 15px 20px;
+    padding: 15px 25px;
     border: 2px solid #2e7d32;
     border-radius: 30px;
     outline: none;
-}
-
-#voiceSearchBtn {
-    position: absolute;
-    right: 10px; top: 50%;
-    transform: translateY(-50%);
-    background: #e8f5e9;
-    border: none;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 20;
-    display: flex; align-items: center; justify-content: center;
 }
 
 .items-grid {
@@ -148,116 +159,117 @@ body {
 }
 
 .item-card {
-    background: white; padding: 20px;
-    border-radius: 10px; border-top: 5px solid #2e7d32;
+    background: white; 
+    padding: 25px;
+    border-radius: 12px; 
+    border-top: 5px solid #2e7d32;
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-/* --- 6. Admin Portal Centering --- */
-.admin-container {
-    display: flex; justify-content: center; align-items: center;
-    min-height: 80vh; padding: 20px;
+/* --- 6. ADMIN & BUTTONS --- */
+.admin-tools {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-.form-card {
-    background: white; width: 100%; max-width: 500px;
-    padding: 30px; border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-#lostItemForm { display: flex; flex-direction: column; gap: 15px; }
-#lostItemForm input, #lostItemForm select, #lostItemForm textarea {
-    padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-}
-
-/* --- 7. Animations & Dark Mode --- */
-@keyframes pulse-red {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
-}
-#voiceSearchBtn.listening { color: #ff0000; animation: pulse-red 1s infinite; }
-
-body.dark-theme { background-color: #121212; color: #fff; }
-.dark-theme .main-nav, .dark-theme .item-card, .dark-theme .form-card, .dark-theme .site-notification {
-    background-color: #1e1e1e !important; color: white;
-}
-.dark-theme #searchInput { background: #2c2c2c; color: white; }
-.dark-theme .nav-links a { color: white; }
-.dark-theme .mode-btn { color: #ffcc00; border-color: #ffcc00; }
-/* Admin Button Styles */
 .claim-btn {
     background-color: #2e7d32;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
-    margin-right: 5px;
+    font-weight: bold;
 }
 
 .delete-btn {
     background-color: #d32f2f;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-weight: bold;
 }
 
 #claimedGrid .item-card {
-    opacity: 0.6;
-    filter: grayscale(100%);
+    opacity: 0.7;
+    filter: grayscale(40%);
     border-top: 5px solid #666;
 }
-/* Modal Styles */
+
+/* --- 7. MODAL SYSTEM --- */
 .modal {
-    display: none; position: fixed; z-index: 10000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+    display: none; 
+    position: fixed; 
+    z-index: 10000;
+    left: 0; top: 0; 
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7); 
+    align-items: center; 
+    justify-content: center;
 }
+
 .modal-content {
-    background: white; padding: 30px; border-radius: 15px;
-    width: 90%; max-width: 450px; position: relative;
+    background: white; 
+    padding: 30px; 
+    border-radius: 15px;
+    width: 90%; 
+    max-width: 450px; 
+    position: relative;
 }
-.close-btn { position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
-#reserveForm input, #reserveForm select, #reserveForm textarea {
-    width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px;
+
+.close-btn { 
+    position: absolute; 
+    right: 20px; 
+    top: 10px; 
+    font-size: 28px; 
+    cursor: pointer; 
+    color: #666;
 }
-.res-list {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+
+#reserveForm input, 
+#reserveForm select, 
+#reserveForm textarea {
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border: 1px solid #ddd; 
+    border-radius: 8px;
 }
-/* Dark Mode Specific Colors */
+
+/* --- 8. DARK THEME --- */
 body.dark-theme {
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
 .dark-theme .main-nav {
-    background-color: #1e1e1e !important;
+    background-color: #1e1e1e;
     box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .dark-theme .item-card, 
 .dark-theme .form-card, 
 .dark-theme .site-notification,
-.dark-theme .modal-content {
-    background-color: #242424 !important;
-    color: white !important;
-    border-color: #444 !important;
+.dark-theme .modal-content,
+.dark-theme .management-container {
+    background-color: #1e1e1e;
+    color: white;
+    border-color: #333;
 }
 
 .dark-theme #searchInput, 
 .dark-theme input, 
 .dark-theme select, 
 .dark-theme textarea {
-    background-color: #333 !important;
-    color: white !important;
-    border: 1px solid #555;
+    background-color: #2c2c2c;
+    color: white;
+    border: 1px solid #444;
 }
 
-.dark-theme .nav-links a {
-    color: #fff !important;
-}
+.dark-theme .nav-links a { color: white; }
+.dark-theme h2, .dark-theme h3 { color: #ffffff; }
