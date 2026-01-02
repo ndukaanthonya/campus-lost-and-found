@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Item Intake</title>
+    <title>Admin Portal - UNN CampusRecover</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <script>
         const password = prompt("Please enter the Administrator Password to log items:");
         if (password !== "MrIzu2026") {
@@ -14,12 +15,13 @@
             window.location.href = "index.html";
         }
     </script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
     <nav class="main-nav">
         <div class="logo">
-            <img src="unnlogo.png" alt="UNN Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;"> 
+            <img src="unnlogo.png" alt="UNN Logo"> 
             <span>UNN CampusRecover</span>
         </div>
         <ul class="nav-links">
@@ -43,115 +45,101 @@
             <form id="lostItemForm">
                 <input type="text" id="itemName" placeholder="Item Name (e.g. Science Book)" required>
                 
-                <label for="itemIcon">Choose Matching Icon:</label>
+                <label for="itemIcon">Select Matching Icon:</label>
                 <select id="itemIcon" class="admin-input">
-                    <option value="fa-mobile-screen-button">📱 Mobile Phone</option>
-                    <option value="fa-laptop">💻 Laptop / Macbook</option>
-                    <option value="fa-tablet-screen-button">📟 Tablet / iPad</option>
-                    <option value="fa-clock">⌚ Wrist Watch / Smartwatch</option>
-                    <option value="fa-headphones">🎧 Headphones / Earbuds</option>
-                    <option value="fa-usb-drive">💾 Flash Drive / USB</option>
-                    <option value="fa-plug">🔌 Charger / Power Cable</option>
-                    <option value="fa-bolt">🔋 Power Bank</option>
-                    <option value="fa-camera">📷 Camera</option>
-                    <option value="fa-mouse">🖱️ Computer Mouse</option>
-                    <option value="fa-keyboard">⌨️ Keyboard</option>
-                    <option value="fa-battery-full">🪫 Extra Battery</option>
-                    <option value="fa-print">🖨️ Portable Printer</option>
-                    <option value="fa-tv">📺 Monitor / Screen</option>
-                    <option value="fa-walkie-talkie">📻 Radio / Walkie-Talkie</option>
-                    <option value="fa-hard-drive">💽 External Hard Drive</option>
-                    <option value="fa-gamepad">🎮 Gaming Controller</option>
-                    <option value="fa-calculator">🔢 Scientific Calculator</option>
-                    <option value="fa-compact-disc">💿 CD / DVD</option>
-                    <option value="fa-speaker">🔈 Bluetooth Speaker</option>
-                    <option value="fa-book">📖 Textbook</option>
-                    <option value="fa-book-open">📖 Notebook / Exercise Book</option>
-                    <option value="fa-pen-nib">🖋️ Fountain Pen</option>
-                    <option value="fa-pen">🖊️ Ballpoint Pen / Pencil</option>
-                    <option value="fa-folder-open">📂 File Folder / Documents</option>
-                    <option value="fa-graduation-cap">🎓 Graduation Cap / Gown</option>
-                    <option value="fa-file-lines">📜 Certificate / Original Result</option>
-                    <option value="fa-scroll">📜 Project Work / Thesis</option>
-                    <option value="fa-ruler">📏 Ruler / T-Square</option>
-                    <option value="fa-compass">🧭 Drawing Compass</option>
-                    <option value="fa-palette">🎨 Art Supplies / Paint</option>
-                    <option value="fa-backpack">🎒 Backpack</option>
-                    <option value="fa-paperclip">📎 Stapler / Stationery Box</option>
-                    <option value="fa-envelope">✉️ Letter / Official Mail</option>
-                    <option value="fa-brain">🧠 Psychology/Med Study Material</option>
-                    <option value="fa-wallet">👛 Wallet / Purse</option>
-                    <option value="fa-credit-card">💳 ATM / Credit Card</option>
-                    <option value="fa-id-card">🪪 Student ID Card</option>
-                    <option value="fa-address-card">🪪 Staff ID / National ID</option>
-                    <option value="fa-money-bill-1">💵 Cash / Naira Notes</option>
-                    <option value="fa-key">🔑 Single Key</option>
-                    <option value="fa-keys">🗝️ Bunch of Keys</option>
-                    <option value="fa-car-rear">🚗 Car Key / Fob</option>
-                    <option value="fa-passport">🛂 Passport</option>
-                    <option value="fa-bus">🚌 Transport Pass</option>
-                    <option value="fa-shirt">👕 Shirt / Top</option>
-                    <option value="fa-vest">🥼 Lab Coat / Safety Vest</option>
-                    <option value="fa-user-tie">👔 Tie / Formal Wear</option>
-                    <option value="fa-glasses">👓 Prescription Glasses</option>
-                    <option value="fa-mitten">🧤 Gloves</option>
-                    <option value="fa-hat-wizard">🧢 Baseball Cap / Hat</option>
-                    <option value="fa-socks">🧦 Socks</option>
-                    <option value="fa-shoe-prints">👟 Sneakers / Shoes</option>
-                    <option value="fa-gem">💍 Ring / Jewelry</option>
-                    <option value="fa-necklace">📿 Necklace / Chain</option>
-                    <option value="fa-umbrella">🌂 Umbrella</option>
-                    <option value="fa-scarf">🧣 Scarf / Hijab</option>
-                    <option value="fa-belt">ベルト Belt</option>
-                    <option value="fa-bag-shopping">🛍️ Shopping Bag</option>
-                    <option value="fa-suitcase">🧳 Travel Suitcase</option>
-                    <option value="fa-flask">🧪 Lab Flask / Chemical</option>
-                    <option value="fa-microscope">🔬 Microscope Accessory</option>
-                    <option value="fa-stethoscope">🩺 Stethoscope</option>
-                    <option value="fa-kit-medical">💊 First Aid Kit</option>
-                    <option value="fa-pills">💊 Medication / Inhaler</option>
-                    <option value="fa-eye-dropper">🧪 Eye Drops / Pipette</option>
-                    <option value="fa-syringe">💉 Medical Syringe</option>
-                    <option value="fa-weight-scale">⚖️ Weighing Scale</option>
-                    <option value="fa-dna">🧬 Biology Lab Sample</option>
-                    <option value="fa-thermometer">🌡️ Thermometer</option>
-                    <option value="fa-football">⚽ Football / Soccer Ball</option>
-                    <option value="fa-basketball">🏀 Basketball</option>
-                    <option value="fa-table-tennis-paddle-ball">🏓 Ping Pong Paddle</option>
-                    <option value="fa-bicycle">🚲 Bicycle</option>
-                    <option value="fa-motorcycle">🏍️ Motorcycle Helmet</option>
-                    <option value="fa-bottle-water">🍼 Water Bottle / Flask</option>
-                    <option value="fa-dumbbell">🏋️ Gym Gear / Glove</option>
-                    <option value="fa-medal">🏅 Sports Medal</option>
-                    <option value="fa-whistle">😙 Referee Whistle</option>
-                    <option value="fa-baseball-bat-ball">🏏 Cricket / Baseball Bat</option>
-                    <option value="fa-music">🎵 Sheet Music</option>
-                    <option value="fa-guitar">🎸 Guitar / String Instrument</option>
-                    <option value="fa-drum">🥁 Drumsticks / Percussion</option>
-                    <option value="fa-microphone">🎤 Microphone</option>
-                    <option value="fa-trumpet">🎺 Horn / Trumpet</option>
-                    <option value="fa-headphones-simple">🎧 Audio Interface</option>
-                    <option value="fa-masks-theater">🎭 Theater Prop / Mask</option>
-                    <option value="fa-clapperboard">🎬 Video Project Gear</option>
-                    <option value="fa-brush">🖌️ Painting Brush</option>
-                    <option value="fa-camera-retro">🎞️ Film Roll</option>
-                    <option value="fa-tools">🛠️ Toolset</option>
-                    <option value="fa-flashlight">🔦 Flashlight / Torch</option>
-                    <option value="fa-box-open">📦 Parcel / Package</option>
-                    <option value="fa-mug-hot">☕ Coffee Mug / Cup</option>
-                    <option value="fa-spoon">🍴 Cutlery / Plate</option>
-                    <option value="fa-soap">🧼 Toiletry Bag / Soap</option>
-                    <option value="fa-comb">🪮 Hair Brush / Comb</option>
-                    <option value="fa-mirror">🪞 Compact Mirror</option>
-                    <option value="fa-briefcase">💼 Briefcase</option>
-                    <option value="fa-heart">💖 Personal Item</option>
+                    <optgroup label="Electronics & Gadgets">
+                        <option value="fa-mobile-screen-button">📱 Mobile Phone</option>
+                        <option value="fa-laptop">💻 Laptop / Macbook</option>
+                        <option value="fa-tablet-screen-button">📟 Tablet / iPad</option>
+                        <option value="fa-clock">⌚ Wrist Watch / Smartwatch</option>
+                        <option value="fa-headphones">🎧 Headphones / Earbuds</option>
+                        <option value="fa-usb-drive">💾 Flash Drive / USB</option>
+                        <option value="fa-plug">🔌 Charger / Cable</option>
+                        <option value="fa-bolt">🔋 Power Bank</option>
+                        <option value="fa-camera">📷 Camera</option>
+                        <option value="fa-mouse">🖱️ Computer Mouse</option>
+                        <option value="fa-keyboard">⌨️ Keyboard</option>
+                        <option value="fa-battery-full">🪫 Extra Battery</option>
+                        <option value="fa-print">🖨️ Portable Printer</option>
+                        <option value="fa-tv">📺 Monitor / Screen</option>
+                        <option value="fa-walkie-talkie">📻 Radio / Walkie-Talkie</option>
+                        <option value="fa-hard-drive">💽 External Hard Drive</option>
+                        <option value="fa-gamepad">🎮 Gaming Controller</option>
+                        <option value="fa-calculator">🔢 Scientific Calculator</option>
+                        <option value="fa-compact-disc">💿 CD / DVD</option>
+                        <option value="fa-speaker">🔈 Bluetooth Speaker</option>
+                    </optgroup>
+
+                    <optgroup label="Academic & Stationery">
+                        <option value="fa-book">📖 Textbook</option>
+                        <option value="fa-book-open">📖 Notebook / Exercise Book</option>
+                        <option value="fa-pen-nib">🖋️ Fountain Pen</option>
+                        <option value="fa-pen">🖊️ Ballpoint Pen / Pencil</option>
+                        <option value="fa-folder-open">📂 File Folder / Documents</option>
+                        <option value="fa-graduation-cap">🎓 Graduation Cap / Gown</option>
+                        <option value="fa-file-lines">📜 Certificate / Original Result</option>
+                        <option value="fa-scroll">📜 Project Work / Thesis</option>
+                        <option value="fa-ruler">📏 Ruler / T-Square</option>
+                        <option value="fa-compass">🧭 Drawing Compass</option>
+                        <option value="fa-palette">🎨 Art Supplies / Paint</option>
+                        <option value="fa-backpack">🎒 Backpack</option>
+                        <option value="fa-paperclip">📎 Stapler / Stationery Box</option>
+                        <option value="fa-envelope">✉️ Letter / Official Mail</option>
+                        <option value="fa-brain">🧠 Psychology/Med Material</option>
+                    </optgroup>
+
+                    <optgroup label="Cards, Wallets & Keys">
+                        <option value="fa-wallet">👛 Wallet / Purse</option>
+                        <option value="fa-credit-card">💳 ATM / Credit Card</option>
+                        <option value="fa-id-card">🪪 Student ID Card</option>
+                        <option value="fa-address-card">🪪 Staff / National ID</option>
+                        <option value="fa-money-bill-1">💵 Cash / Naira Notes</option>
+                        <option value="fa-key">🔑 Single Key</option>
+                        <option value="fa-keys">🗝️ Bunch of Keys</option>
+                        <option value="fa-car-rear">🚗 Car Key / Fob</option>
+                        <option value="fa-passport">🛂 Passport</option>
+                        <option value="fa-bus">🚌 Transport Pass</option>
+                    </optgroup>
+
+                    <optgroup label="Clothing & Accessories">
+                        <option value="fa-shirt">👕 Shirt / Top</option>
+                        <option value="fa-vest">🥼 Lab Coat / Safety Vest</option>
+                        <option value="fa-user-tie">👔 Tie / Formal Wear</option>
+                        <option value="fa-glasses">👓 Prescription Glasses</option>
+                        <option value="fa-mitten">🧤 Gloves</option>
+                        <option value="fa-hat-wizard">🧢 Baseball Cap / Hat</option>
+                        <option value="fa-socks">🧦 Socks</option>
+                        <option value="fa-shoe-prints">👟 Sneakers / Shoes</option>
+                        <option value="fa-gem">💍 Ring / Jewelry</option>
+                        <option value="fa-necklace">📿 Necklace / Chain</option>
+                        <option value="fa-umbrella">🌂 Umbrella</option>
+                        <option value="fa-scarf">🧣 Scarf / Hijab</option>
+                        <option value="fa-belt">ベルト Belt</option>
+                        <option value="fa-bag-shopping">🛍️ Shopping Bag</option>
+                        <option value="fa-suitcase">🧳 Travel Suitcase</option>
+                    </optgroup>
+
+                    <optgroup label="Science, Sports & Misc">
+                        <option value="fa-flask">🧪 Lab Flask</option>
+                        <option value="fa-microscope">🔬 Microscope Gear</option>
+                        <option value="fa-stethoscope">🩺 Stethoscope</option>
+                        <option value="fa-kit-medical">💊 First Aid Kit</option>
+                        <option value="fa-pills">💊 Medication / Inhaler</option>
+                        <option value="fa-football">⚽ Football / Soccer</option>
+                        <option value="fa-basketball">🏀 Basketball</option>
+                        <option value="fa-bicycle">🚲 Bicycle / Scooter</option>
+                        <option value="fa-bottle-water">🍼 Water Bottle</option>
+                        <option value="fa-music">🎸 Musical Instrument</option>
+                        <option value="fa-tools">🛠️ Toolset</option>
+                        <option value="fa-box-open">📦 Miscellaneous</option>
+                    </optgroup>
                 </select>
                 
-                <input type="text" id="location" placeholder="Where was it found?" required>
+                <input type="text" id="location" placeholder="Found Location (e.g. GS Building)" required>
                 <input type="date" id="lostDate" required>
-                <textarea id="details" placeholder="Secret description (for verification)" rows="3"></textarea>
+                <textarea id="details" placeholder="Secret description (e.g. cracked screen, name written inside)" rows="3"></textarea>
                 
-                <button type="submit">Upload Item</button>
+                <button type="submit">Publish to Feed</button>
             </form>
             
             <div style="text-align: center; margin-top: 20px;">
@@ -161,7 +149,5 @@
             </div>
         </div>
     </div>
-
-    <script src="script.js" defer></script>
 </body>
 </html>

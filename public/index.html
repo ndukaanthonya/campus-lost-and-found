@@ -5,85 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNN Lost and Found</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="script.js" defer></script>
 </head>
 <body>
+    <nav class="main-nav">
+        <div class="logo"><img src="unnlogo.png" alt="UNN Logo"> <span>UNN Lost and Found</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#feed">Found Items</a></li>
+            <li><a href="manage.html">Admin Portal</a></li>
+            <li><button id="dark-mode-toggle" class="mode-btn"><i class="fa-solid fa-moon"></i></button></li>
+        </ul>
+    </nav>
 
-    <body>
+    <header class="hero-section">
+        <img src="unnbgphoto.jpg" alt="UNN Campus" class="hero-bg-img">
+        <div class="hero-content">
+            <h1>Lost something on campus?</h1>
+            <p>Visit our central hub for recovery.</p>
+        </div>
+    </header>
 
-        <nav class="main-nav">
-            <div class="logo">
-                <img src="unnlogo.png" alt="UNN Logo"> 
-                <span>UNN Lost and Found</span>
-            </div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#feed">Found Items</a></li>
-                    <li><a href="manage.html" class="admin-link">Admin Portal</a></li>
-                    <li>
-                        <button id="dark-mode-toggle" class="mode-btn">
-                            <i class="fa-solid fa-moon"></i>
-                        </button>
-                    </li>
-                </ul>
-        </nav>
-    
-        <header class="hero-section">
-            <img src="unnbgphoto.jpg" alt="UNN Campus Gate" class="hero-bg-img">
-            <div class="hero-content">
-                <h1>Lost something on campus?</h1>
-                <p>Visit our central hub for recovery.</p>
-            </div>
-        </header>
-    
     <section class="info-hub">
         <div class="site-notification">
-            <p>
-                <strong>Found your item?</strong> Visit the <strong>GS Building (9 AM - 4 PM)</strong> with your ID card to claim. <br>
-                <em>Found an item? Please bring it to us for registration.</em>
-            </p>
+            <p><strong>Found your item?</strong> Visit <strong>GS Building (9 AM - 4 PM)</strong> with your ID. <br>
+            <em>Found an item? Please bring it to us for registration.</em></p>
         </div>
-    
         <div class="map-frame">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.231268875567!2d7.4069!3d6.8644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTEnNTEuOCJOIDfCsDI0JzI0LjgiRQ!5e0!3m2!1sen!2sng!4v1640000000000!5m2!1sen!2sng" 
-                width="100%" 
-                height="400" 
-                style="border:0;" 
-                allowfullscreen="" 
-                loading="lazy">
-            </iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.231268875567!2d7.4069!3d6.8644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTEnNTEuOCJOIDfCsDI0JzI0LjgiRQ!5e0!3m2!1sen!2sng!4v1640000000000!5m2!1sen!2sng" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-
-        <a href="https://www.google.com/maps/dir/?api=1&destination=GS+Building+UNN" target="_blank" class="directions-btn">
-            📍 Get Directions to GS Building
-        </a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=GS+Building+UNN" target="_blank" class="directions-btn">📍 Get Directions to GS Building</a>
     </section>
 
     <section id="feed">
         <h2>Recently Found Items</h2>
-        
         <div class="search-container">
             <div class="search-wrapper">
                 <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()">
-                <button id="voiceSearchBtn" title="Search with AI Voice">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
+                <button id="voiceSearchBtn"><i class="fa-solid fa-microphone"></i></button>
             </div>
-            <p id="voiceStatus" style="display: none; font-size: 0.8rem; color: #2e7d32; margin-top: 5px;">
+            <p id="voiceStatus" style="display:none; text-align:center; color:#2e7d32; margin-top:5px; font-weight:bold;">
                 <i class="fa-solid fa-circle-dot fa-beat"></i> AI is listening...
             </p>
         </div>
-
-        <div id="itemsGrid" class="items-grid">
-            </div>
-
-        <p id="noResults" style="display: none; text-align: center; color: #666;">
-            No items match your search. Try another keyword!
-        </p>
+        <div id="itemsGrid" class="items-grid"></div>
+        <p id="noResults" style="display: none; text-align: center;">No items match your search.</p>
     </section>
-
 </body>
 </html>
