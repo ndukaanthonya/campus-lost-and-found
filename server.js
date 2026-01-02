@@ -20,11 +20,8 @@ app.use(session({
 }));
 
 // --- 2. Database Connection ---
-// Replace the string below with your actual MongoDB Atlas connection string
-mongoose.connect("mongodb+srv://YOUR_CONNECTION_STRING", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log("Connected to UNN Database"))
+mongoose.connect("mongodb+srv://ndukaanthonya:ITNAA2026@cluster0.xksjxbb.mongodb.net/?appName=Cluster0")
+  .then(() => console.log("Connected to UNN Database"))
   .catch(err => console.log("DB Connection Error:", err));
 
 // --- 3. Schemas & Models ---
@@ -123,18 +120,6 @@ app.delete("/api/items/:id", checkAuth, async (req, res) => {
         await Item.findByIdAndDelete(req.params.id);
         res.json({ success: true });
     } catch (err) { res.status(500).json(err); }
-});
-
-// --- 8. One-Time Setup Route ---
-// RUN THIS ONCE by visiting /setup-admin then DELETE THIS BLOCK
-app.get("/setup-admin", async (req, res) => {
-    const hashedPassword = await bcrypt.hash("MrIzu2026", 10);
-    const newAdmin = new Admin({
-        username: "admin",
-        password: hashedPassword
-    });
-    await newAdmin.save();
-    res.send("Admin 'admin' created with password 'MrIzu2026'. DELETE THIS ROUTE NOW!");
 });
 
 // --- 9. Start Server ---
