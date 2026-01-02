@@ -9,14 +9,13 @@ const app = express();
 // --- 1. Middleware ---
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
-// Setting up Sessions (The "ID Card" system)
+// Setting up Sessions
 app.use(session({
     secret: "UNN_Campus_Secret_2026", 
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 3600000 } // Session expires in 1 hour
+    cookie: { maxAge: 3600000 } 
 }));
 
 // --- 2. Database Connection ---
@@ -25,8 +24,6 @@ mongoose.connect("mongodb+srv://ndukaanthonya:ITNAA2026@cluster0.xksjxbb.mongodb
   .catch(err => console.log("DB Connection Error:", err));
 
 // --- 3. Schemas & Models ---
-
-// Item Schema (For Lost/Found Items)
 const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
     iconClass: String,
@@ -37,26 +34,43 @@ const itemSchema = new mongoose.Schema({
 });
 const Item = mongoose.model("Item", itemSchema);
 
-// Admin Schema (For Secure Login)
 const adminSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 });
 const Admin = mongoose.model("Admin", adminSchema);
 
-// --- 4. Auth Gatekeeper (Middleware) ---
-// This function checks if you are logged in before letting you see a page
+// --- 4. The Setup Route (ADED THIS BACK) ---
+// Visit /setup-admin ONCE to create your login
+app.get("/setup-admin", async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash("MrIzu2026", 10);
+        await Admin.deleteMany({ username: "admin" }); // Clear old ones
+        const newAdmin = new Admin({
+            username: "admin",
+            password: hashedPassword
+        });
+        await newAdmin.save();
+        res.send("<h1>SUCCESS!</h1><p>Admin 'admin' created. Go to <a href='/login.html'>Login Page</a></p>");
+    } catch (err) {
+        res.status(500).send("Setup Error: " + err.message);
+    }
+});
+
+// Serve static files AFTER the setup route
+app.use(express.static("public"));
+
+// --- 5. Auth Gatekeeper ---
 function checkAuth(req, res, next) {
     if (req.session.isAdmin) {
-        next(); // You are logged in, proceed!
+        next();
     } else {
-        res.redirect("/login.html"); // Not logged in? Go to login page.
+        res.redirect("/login.html");
     }
 }
 
-// --- 5. Authentication Routes ---
+// --- 6. Routes ---
 
-// Login Logic
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -75,21 +89,16 @@ app.post("/login", async (req, res) => {
     } catch (err) { res.status(500).send("Login Error"); }
 });
 
-// Logout Logic
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.redirect("/login.html");
 });
 
-// --- 6. Protected Page Route ---
-// Only logged-in admins can reach manage.html
 app.get("/manage.html", checkAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "manage.html"));
 });
 
-// --- 7. API Routes (The CRUD Operations) ---
-
-// CREATE: Post item
+// --- 7. API Routes ---
 app.post("/api/report", checkAuth, async (req, res) => {
     try {
         const newItem = new Item(req.body);
@@ -98,7 +107,6 @@ app.post("/api/report", checkAuth, async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// READ: Get all items
 app.get("/api/items", async (req, res) => {
     try {
         const items = await Item.find({});
@@ -106,7 +114,6 @@ app.get("/api/items", async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// UPDATE: Mark as Claimed
 app.patch("/api/items/:id", checkAuth, async (req, res) => {
     try {
         await Item.findByIdAndUpdate(req.params.id, { status: req.body.status });
@@ -114,7 +121,6 @@ app.patch("/api/items/:id", checkAuth, async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// DELETE: The Trash Can
 app.delete("/api/items/:id", checkAuth, async (req, res) => {
     try {
         await Item.findByIdAndDelete(req.params.id);
@@ -122,6 +128,5 @@ app.delete("/api/items/:id", checkAuth, async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// --- 9. Start Server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
