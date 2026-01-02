@@ -12,85 +12,93 @@ async function loadItems() {
 
         items.reverse().forEach(item => {
             const isClaimed = item.status === 'claimed';
+            const isAdminPage = window.location.pathname.includes('manage.html');
             const card = document.createElement('div');
             card.className = 'item-card';
             
-            // Check if we are on the admin page to show controls
-            const isAdminPage = window.location.pathname.includes('manage.html');
-            let adminButtons = '';
-            
+            let actionButtons = '';
             if (isAdminPage) {
-                adminButtons = `
-                    <div class="admin-tools" style="margin-top:15px; border-top:1px solid #ddd; padding-top:10px;">
+                actionButtons = `
+                    <div class="admin-tools">
                         ${!isClaimed ? `<button onclick="updateStatus('${item._id}', 'claimed')" class="claim-btn">Claimed</button>` : ''}
                         <button onclick="deleteItem('${item._id}')" class="delete-btn">Delete</button>
-                    </div>
-                `;
+                    </div>`;
+            } else if (!isClaimed) {
+                actionButtons = `<button class="claim-btn" style="width:100%; margin-top:10px;" onclick="openModal('${item._id}', '${item.name}')">Reserve Item</button>`;
             }
 
             card.innerHTML = `
                 <div style="margin-bottom:15px;"><i class="fa-solid ${item.iconClass || 'fa-box'} fa-3x" style="color: ${isClaimed ? '#999' : '#2e7d32'};"></i></div>
-                <h3>${item.name} ${isClaimed ? '✅' : ''}</h3>
+                <h3>${item.name}</h3>
                 <p><strong>Found at:</strong> ${item.location}</p>
                 <small>${item.date}</small>
-                ${adminButtons}
+                ${actionButtons}
             `;
 
-            if (isClaimed) {
-                if (claimedGrid) claimedGrid.appendChild(card);
-            } else {
-                if (activeGrid) activeGrid.appendChild(card);
-            }
+            if (isClaimed) claimedGrid?.appendChild(card);
+            else activeGrid?.appendChild(card);
         });
-    } catch (err) { console.error("Error loading items:", err); }
+    } catch (err) { console.error(err); }
 }
 
-// --- 2. Admin Actions (PATCH & DELETE) ---
-async function updateStatus(id, newStatus) {
-    if (!confirm("Move this item to the Claimed Archive?")) return;
-    const res = await fetch(`/api/items/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+// --- 2. Reservation Logic ---
+function openModal(id, name) {
+    document.getElementById('reserveModal').style.display = 'flex';
+    document.getElementById('modalItemName').innerText = name;
+    document.getElementById('resItemId').value = id;
+    document.getElementById('resItemTitle').value = name;
+}
+
+function closeModal() { document.getElementById('reserveModal').style.display = 'none'; }
+
+document.getElementById('reserveForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+        itemId: document.getElementById('resItemId').value,
+        itemName: document.getElementById('resItemTitle').value,
+        fullName: document.getElementById('resFullName').value,
+        email: document.getElementById('resEmail').value,
+        phone: document.getElementById('resPhone').value,
+        userType: document.getElementById('resUserType').value,
+        comment: document.getElementById('resComment').value
+    };
+
+    const res = await fetch('/api/reserve', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
     });
-    if (res.ok) loadItems();
+    if (res.ok) { alert('Reservation Sent!'); closeModal(); }
+});
+
+// --- 3. Admin View Reservations ---
+async function loadReservations() {
+    const resList = document.getElementById('reservationList');
+    if (!resList) return;
+    const response = await fetch('/api/reservations');
+    const data = await response.json();
+    resList.innerHTML = data.map(r => `
+        <div class="item-card" style="text-align:left; border-left:5px solid #2e7d32">
+            <h4>Item: ${r.itemName}</h4>
+            <p><strong>From:</strong> ${r.fullName} (${r.userType})</p>
+            <p><strong>Contact:</strong> ${r.phone} | ${r.email}</p>
+            <p><strong>Message:</strong> ${r.comment}</p>
+            <small>${new Date(r.dateSent).toLocaleString()}</small>
+        </div>
+    `).join('');
 }
 
-async function deleteItem(id) {
-    if (!confirm("Permanently delete this record?")) return;
-    const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
-    if (res.ok) loadItems();
-}
-
-// --- 3. Initializing Everything ---
+// --- 4. Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     loadItems();
-    
-    // Dark Mode Toggle Logic
-    const toggleBtn = document.getElementById('dark-mode-toggle');
-    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
-    
-    toggleBtn?.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
-    });
-
-    // Form Submission for New Items
-    const form = document.getElementById('lostItemForm');
-    form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: document.getElementById('itemName').value,
-            iconClass: document.getElementById('itemIcon').value,
-            location: document.getElementById('location').value,
-            date: document.getElementById('lostDate').value,
-            details: document.getElementById('details').value
-        };
-        const res = await fetch('/api/report', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        });
-        if (res.ok) { form.reset(); loadItems(); alert("Item Published!"); }
-    });
+    if (window.location.pathname.includes('manage.html')) loadReservations();
 });
+
+function searchItems() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const activeCards = document.querySelectorAll('#itemsGrid .item-card');
+    activeCards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(query) ? "block" : "none";
+    });
+}

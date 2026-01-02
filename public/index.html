@@ -58,6 +58,29 @@
         </section>
         <p id="noResults" style="display: none; text-align: center;">No items match your search.</p>
     </section>
+    <div id="reserveModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="color:#2e7d32">Reserve: <span id="modalItemName"></span></h2>
+            <form id="reserveForm">
+                <input type="hidden" id="resItemId">
+                <input type="hidden" id="resItemTitle">
+                <input type="text" id="resFullName" placeholder="Full Name" required>
+                <input type="email" id="resEmail" placeholder="Email Address" required>
+                <input type="tel" id="resPhone" placeholder="Phone (e.g. 080...)" required>
+                <select id="resUserType" required>
+                    <option value="">User Type</option>
+                    <option value="Student">Student</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Post-Graduate">Post Graduate</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea id="resComment" placeholder="Message (e.g. I'm coming to pick it up by 2pm)" rows="3" required></textarea>
+                <button type="submit" class="directions-btn" style="width:100%; border:none; cursor:pointer;">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
     <footer style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9rem;">
         <p>&copy; 2025 UNN RoarHub IT Project - built by Nduka Anthony Annaelechukwu</p>
     </footer>
