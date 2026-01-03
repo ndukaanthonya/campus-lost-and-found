@@ -72,7 +72,7 @@ document.getElementById('lostItemForm')?.addEventListener('submit', async (e) =>
     e.preventDefault();
 
     const itemData = {
-        name: document.getElementById('itemName').value,
+        name: document.getElementById('name').value,
         location: document.getElementById('location').value,
         date: document.getElementById('lostDate').value,
         iconClass: document.getElementById('iconClass')?.value || 'fa-box'

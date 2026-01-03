@@ -73,9 +73,16 @@ app.get("/manage.html", checkAuth, (req, res) => {
 
 // API Routes
 app.post("/api/report", checkAuth, async (req, res) => {
-    const newItem = new Item(req.body);
-    await newItem.save();
-    res.json({ success: true });
+    try {
+        console.log("Receiving new item:", req.body); // Check what data is arriving
+        const newItem = new Item(req.body);
+        await newItem.save();
+        console.log("Item saved successfully to Database!");
+        res.json({ success: true });
+    } catch (err) {
+        console.error("Database Save Error:", err); // This will tell us if a field is missing
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 app.get("/api/items", async (req, res) => {
