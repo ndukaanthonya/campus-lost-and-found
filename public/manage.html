@@ -3,168 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal - UNN Lost and Found</title>
+    <title>UNN Lost & Found - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="https://www.unn.edu.ng/favicon.ico">
 </head>
-<body>
-
-    <nav class="main-nav">
-        <div class="logo">
-            <img src="unnlogo.png" alt="UNN Logo"> 
-            <span>UNN Lost and Found Admin</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#feed">Public Feed</a></li>
-            <li><a href="/logout" style="color: #d32f2f; font-weight: bold;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            <li>
-                <button id="dark-mode-toggle" class="mode-btn">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-            </li>
-        </ul>
-    </nav>
-
+<body class="admin-body">
     <div class="admin-container">
-        <div class="form-card">
-            <div class="form-header" style="text-align: center; margin-bottom: 20px;">
-                <h2>Administrator Intake Form</h2>
-                <p>Register found items into the UNN L.A.F. database.</p>
+        <!-- Login Section (shown when not authenticated) -->
+        <div class="login-section" id="login-section">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-lock"></i>
+                    <h2>Admin Login</h2>
+                    <p>UNN Lost & Found System Management</p>
+                </div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="admin-username">Username</label>
+                        <input type="text" id="admin-username" placeholder="Enter admin username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn-primary btn-block">Login</button>
+                    </div>
+                    
+                    <div class="login-footer">
+                        <p>Default credentials: admin / admin123</p>
+                        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Main Site</a>
+                    </div>
+                </form>
+                
+                <div class="login-error hidden" id="login-error">
+                    <p><i class="fas fa-exclamation-circle"></i> Invalid username or password</p>
+                </div>
             </div>
-
-            <form id="lostItemForm">
-                <input type="text" id="itemName" placeholder="Item Name (e.g. Science Book)" required>
-                
-                <label for="itemIcon" style="display: block; margin-top: 10px; font-weight: bold;">Select Matching Icon:</label>
-                <select id="itemIcon" class="admin-input">
-                    <optgroup label="Electronics & Gadgets">
-                        <option value="fa-mobile-screen-button">📱 Mobile Phone</option>
-                        <option value="fa-laptop">💻 Laptop / Macbook</option>
-                        <option value="fa-tablet-screen-button">📟 Tablet / iPad</option>
-                        <option value="fa-clock">⌚ Watch / Smartwatch</option>
-                        <option value="fa-headphones">🎧 Headphones / Earbuds</option>
-                        <option value="fa-usb-drive">💾 Flash Drive / USB</option>
-                        <option value="fa-plug">🔌 Charger / Cable</option>
-                        <option value="fa-bolt">🔋 Power Bank</option>
-                        <option value="fa-camera">📷 Camera</option>
-                        <option value="fa-mouse">🖱️ Computer Mouse</option>
-                        <option value="fa-keyboard">⌨️ Keyboard</option>
-                        <option value="fa-battery-full">🪫 Extra Battery</option>
-                        <option value="fa-print">🖨️ Portable Printer</option>
-                        <option value="fa-tv">📺 Monitor / Screen</option>
-                        <option value="fa-walkie-talkie">📻 Radio / Walkie-Talkie</option>
-                        <option value="fa-hard-drive">💽 External Hard Drive</option>
-                        <option value="fa-gamepad">🎮 Gaming Controller</option>
-                        <option value="fa-calculator">🔢 Scientific Calculator</option>
-                        <option value="fa-compact-disc">💿 CD / DVD</option>
-                        <option value="fa-speaker">🔈 Bluetooth Speaker</option>
-                    </optgroup>
-
-                    <optgroup label="Academic & Stationery">
-                        <option value="fa-book">📖 Textbook</option>
-                        <option value="fa-book-open">📖 Notebook</option>
-                        <option value="fa-pen-nib">🖋️ Fountain Pen</option>
-                        <option value="fa-pen">🖊️ Pen / Pencil</option>
-                        <option value="fa-folder-open">📂 File Folder / Documents</option>
-                        <option value="fa-graduation-cap">🎓 Graduation Cap / Gown</option>
-                        <option value="fa-file-lines">📜 Certificate / Result</option>
-                        <option value="fa-scroll">📜 Project / Thesis</option>
-                        <option value="fa-ruler">📏 Ruler / T-Square</option>
-                        <option value="fa-compass">🧭 Drawing Compass</option>
-                        <option value="fa-palette">🎨 Art Supplies / Paint</option>
-                        <option value="fa-backpack">🎒 Backpack</option>
-                        <option value="fa-paperclip">📎 Stapler / Stationery Box</option>
-                        <option value="fa-envelope">✉️ Letter / Official Mail</option>
-                        <option value="fa-brain">🧠 Med Study Material</option>
-                    </optgroup>
-
-                    <optgroup label="Cards, Wallets & Keys">
-                        <option value="fa-wallet">👛 Wallet / Purse</option>
-                        <option value="fa-credit-card">💳 ATM / Credit Card</option>
-                        <option value="fa-id-card">🪪 Student ID Card</option>
-                        <option value="fa-address-card">🪪 Staff / National ID</option>
-                        <option value="fa-money-bill-1">💵 Cash / Naira Notes</option>
-                        <option value="fa-key">🔑 Single Key</option>
-                        <option value="fa-keys">🗝️ Bunch of Keys</option>
-                        <option value="fa-car-rear">🚗 Car Key / Fob</option>
-                        <option value="fa-passport">🛂 Passport</option>
-                        <option value="fa-bus">🚌 Transport Pass</option>
-                    </optgroup>
-
-                    <optgroup label="Clothing & Accessories">
-                        <option value="fa-shirt">👕 Shirt / Top</option>
-                        <option value="fa-vest">🥼 Lab Coat / Safety Vest</option>
-                        <option value="fa-user-tie">👔 Tie / Formal Wear</option>
-                        <option value="fa-glasses">👓 Prescription Glasses</option>
-                        <option value="fa-mitten">🧤 Gloves</option>
-                        <option value="fa-hat-wizard">🧢 Baseball Cap / Hat</option>
-                        <option value="fa-socks">🧦 Socks</option>
-                        <option value="fa-shoe-prints">👟 Sneakers / Shoes</option>
-                        <option value="fa-gem">💍 Ring / Jewelry</option>
-                        <option value="fa-necklace">📿 Necklace / Chain</option>
-                        <option value="fa-umbrella">🌂 Umbrella</option>
-                        <option value="fa-scarf">🧣 Scarf / Hijab</option>
-                        <option value="fa-belt">ベルト Belt</option>
-                        <option value="fa-bag-shopping">🛍️ Shopping Bag</option>
-                        <option value="fa-suitcase">🧳 Travel Suitcase</option>
-                    </optgroup>
-
-                    <optgroup label="Science, Sports & Misc">
-                        <option value="fa-flask">🧪 Lab Flask</option>
-                        <option value="fa-microscope">🔬 Microscope Gear</option>
-                        <option value="fa-stethoscope">🩺 Stethoscope</option>
-                        <option value="fa-kit-medical">💊 First Aid Kit</option>
-                        <option value="fa-pills">💊 Medication / Inhaler</option>
-                        <option value="fa-football">⚽ Football / Soccer</option>
-                        <option value="fa-basketball">🏀 Basketball</option>
-                        <option value="fa-bicycle">🚲 Bicycle / Scooter</option>
-                        <option value="fa-bottle-water">🍼 Water Bottle</option>
-                        <option value="fa-music">🎸 Musical Instrument</option>
-                        <option value="fa-tools">🛠️ Toolset</option>
-                        <option value="fa-box-open">📦 Miscellaneous</option>
-                    </optgroup>
-                </select>
-                
-                <input type="text" id="location" placeholder="Found Location (e.g. GS Building)" required>
-                <input type="date" id="lostDate" required>
-                <textarea id="details" placeholder="Secret description (for internal verification only)" rows="3"></textarea>
-                
-                <button type="submit">Publish to Feed</button>
-            </form>
+        </div>
+        
+        <!-- Admin Dashboard (shown when authenticated) -->
+        <div class="dashboard hidden" id="dashboard">
+            <header class="admin-header">
+                <div class="admin-header-content">
+                    <div class="admin-logo">
+                        <i class="fas fa-search-location"></i>
+                        <div>
+                            <h1>UNN Lost & Found Admin</h1>
+                            <p>Welcome, <span id="admin-username-display">Admin</span></p>
+                        </div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn-secondary" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
             
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="index.html" style="text-decoration: none; color: #2e7d32; font-weight: bold;">
-                    ← Back to Public View
-                </a>
+            <main class="admin-main">
+                <div class="admin-sidebar">
+                    <nav class="admin-nav">
+                        <button class="admin-nav-btn active" data-tab="items">
+                            <i class="fas fa-box"></i> Manage Items
+                        </button>
+                        <button class="admin-nav-btn" data-tab="add-item">
+                            <i class="fas fa-plus-circle"></i> Add New Item
+                        </button>
+                        <button class="admin-nav-btn" data-tab="reservations">
+                            <i class="fas fa-clipboard-list"></i> Reservations
+                            <span class="badge" id="pending-count">0</span>
+                        </button>
+                        <button class="admin-nav-btn" data-tab="analytics">
+                            <i class="fas fa-chart-bar"></i> Analytics
+                        </button>
+                    </nav>
+                </div>
+                
+                <div class="admin-content">
+                    <!-- Manage Items Tab -->
+                    <div class="admin-tab active" id="items-tab">
+                        <div class="tab-header">
+                            <h2><i class="fas fa-box"></i> Manage Lost Items</h2>
+                            <div class="tab-actions">
+                                <input type="text" id="admin-search" placeholder="Search items...">
+                                <select id="status-filter">
+                                    <option value="all">All Status</option>
+                                    <option value="active">Active Only</option>
+                                    <option value="claimed">Claimed Only</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="items-table-container">
+                            <table class="items-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-items-table">
+                                    <!-- Items will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Item Tab -->
+                    <div class="admin-tab" id="add-item-tab">
+                        <div class="tab-header">
+                            <h2><i class="fas fa-plus-circle"></i> Add New Lost Item</h2>
+                        </div>
+                        
+                        <form id="admin-item-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-item-name">Item Name *</label>
+                                    <input type="text" id="admin-item-name" placeholder="e.g., iPhone 13, Student ID Card" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="admin-item-icon">Item Icon</label>
+                                    <select id="admin-item-icon">
+                                        <option value="fas fa-mobile-alt">Phone</option>
+                                        <option value="fas fa-wallet">Wallet</option>
+                                        <option value="fas fa-key">Keys</option>
+                                        <option value="fas fa-id-card">ID Card</option>
+                                        <option value="fas fa-laptop">Laptop</option>
+                                        <option value="fas fa-book">Book</option>
+                                        <option value="fas fa-headphones">Headphones</option>
+                                        <option value="fas fa-glasses">Glasses</option>
+                                        <option value="fas fa-tshirt">Clothing</option>
+                                        <option value="fas fa-bottle-water">Water Bottle</option>
+                                        <option value="fas fa-umbrella">Umbrella</option>
+                                        <option value="fas fa-question-circle">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-item-location">Location Found *</label>
+                                    <input type="text" id="admin-item-location" placeholder="e.g., Library, Lecture Hall 3" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="admin-item-date">Date Found *</label>
+                                    <input type="date" id="admin-item-date" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="admin-item-status">Status</label>
+                                <select id="admin-item-status">
+                                    <option value="active">Active (Available)</option>
+                                    <option value="claimed">Claimed (Archived)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="admin-item-details">Secret Details *</label>
+                                <textarea id="admin-item-details" placeholder="Admin-only details about the item (condition, security notes, etc.)" required></textarea>
+                                <small class="form-text">This information is only visible to administrators</small>
+                            </div>
+                            
+                            <div class="form-buttons">
+                                <button type="reset" class="btn-secondary">Clear Form</button>
+                                <button type="submit" class="btn-primary">Add Item</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Reservations Tab -->
+                    <div class="admin-tab" id="reservations-tab">
+                        <div class="tab-header">
+                            <h2><i class="fas fa-clipboard-list"></i> Item Reservation Requests</h2>
+                            <div class="tab-actions">
+                                <select id="reservation-filter">
+                                    <option value="all">All Reservations</option>
+                                    <option value="pending">Pending Only</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="reservations-container">
+                            <div class="reservations-list" id="reservations-list">
+                                <!-- Reservations will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Tab -->
+                    <div class="admin-tab" id="analytics-tab">
+                        <div class="tab-header">
+                            <h2><i class="fas fa-chart-bar"></i> System Analytics</h2>
+                        </div>
+                        
+                        <div class="analytics-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="total-items">0</h3>
+                                    <p>Total Items</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="active-items">0</h3>
+                                    <p>Active Items</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="claimed-items">0</h3>
+                                    <p>Claimed Items</p>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3 id="total-reservations">0</h3>
+                                    <p>Total Reservations</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3>Items by Category</h3>
+                            <div class="chart-placeholder">
+                                <canvas id="category-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal hidden" id="success-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Success!</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="success-message">Operation completed successfully.</p>
+                <button class="btn-primary" id="modal-ok">OK</button>
             </div>
         </div>
     </div>
 
-    <section id="adminFeed" style="padding: 50px 5%; background-color: rgba(0,0,0,0.02);">
-        <h2 style="text-align: center; margin-bottom: 30px;">Live Database Management</h2>
-        
-        <div class="management-container">
-            <h3 style="color: #2e7d32; margin-bottom: 15px;"><i class="fa-solid fa-satellite-dish"></i> Active Found Items</h3>
-            <div id="itemsGrid" class="items-grid">
-                </div>
-        </div>
-
-        <div class="management-container" style="margin-top: 50px; border-top: 3px dashed #ccc; padding-top: 30px;">
-            <h3 style="color: #666; margin-bottom: 15px;"><i class="fa-solid fa-circle-check"></i> Successfully Claimed Archive</h3>
-            <div id="claimedGrid" class="items-grid">
-                </div>
-        </div>
-    </section>
-    <section id="reservationFeed" style="padding: 50px 5%;">
-        <h2 style="text-align: center; margin-bottom: 20px;">Reservation Requests</h2>
-        <div id="reservationList" class="res-list">
-            </div>
-    </section>
-    <footer style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9rem;">
-        <p>&copy; 2025 UNN RoarHub IT Project - built by Nduka Anthony Annaelechukwu</p>
-    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
