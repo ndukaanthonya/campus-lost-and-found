@@ -22,10 +22,10 @@ mongoose.connect("mongodb+srv://ndukaanthonya:ITNAA2026@cluster0.xksjxbb.mongodb
   .then(() => console.log("Connected to UNN Database"))
   .catch(err => console.log("DB Connection Error:", err));
 
-// Schemas
+// --- SCHEMAS ---
 const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    iconClass: String,
+    iconClass: { type: String, default: 'fa-box' },
     location: String,
     date: String,
     details: String,
@@ -33,24 +33,24 @@ const itemSchema = new mongoose.Schema({
 });
 const Item = mongoose.model("Item", itemSchema);
 
+const reserveSchema = new mongoose.Schema({
+    itemId: String,
+    itemName: String,
+    fullName: String,
+    email: String,
+    phone: String,
+    userType: String,
+    comment: String,
+    dateSent: { type: Date, default: Date.now }
+});
+const Reservation = mongoose.model("Reservation", reserveSchema);
+
 const Admin = mongoose.model("Admin", new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 }));
 
-// Setup Route (Run once if needed)
-app.get("/setup-admin", async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash("MrIzu2026", 10);
-        await Admin.deleteMany({ username: "admin" });
-        const newAdmin = new Admin({ username: "admin", password: hashedPassword });
-        await newAdmin.save();
-        res.send("Admin created successfully.");
-    } catch (err) { res.status(500).send(err); }
-});
-
-app.use(express.static("public"));
-
+// --- AUTH & ROUTES ---
 function checkAuth(req, res, next) {
     if (req.session.isAdmin) next();
     else res.redirect("/login.html");
@@ -67,27 +67,31 @@ app.post("/login", async (req, res) => {
 
 app.get("/logout", (req, res) => { req.session.destroy(); res.redirect("/login.html"); });
 
-app.get("/manage.html", checkAuth, (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "manage.html"));
-});
-
-// API Routes
+// --- API CRUD ---
 app.post("/api/report", checkAuth, async (req, res) => {
     try {
-        console.log("Receiving new item:", req.body); // Check what data is arriving
         const newItem = new Item(req.body);
         await newItem.save();
-        console.log("Item saved successfully to Database!");
         res.json({ success: true });
-    } catch (err) {
-        console.error("Database Save Error:", err); // This will tell us if a field is missing
-        res.status(500).json({ success: false, error: err.message });
-    }
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.get("/api/items", async (req, res) => {
     const items = await Item.find({});
     res.json(items);
+});
+
+app.post("/api/reserve", async (req, res) => {
+    try {
+        const newRes = new Reservation(req.body);
+        await newRes.save();
+        res.json({ success: true });
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.get("/api/reservations", checkAuth, async (req, res) => {
+    const resList = await Reservation.find({}).sort({ dateSent: -1 });
+    res.json(resList);
 });
 
 app.patch("/api/items/:id", checkAuth, async (req, res) => {
@@ -99,6 +103,9 @@ app.delete("/api/items/:id", checkAuth, async (req, res) => {
     await Item.findByIdAndDelete(req.params.id);
     res.json({ success: true });
 });
+
+app.use(express.static("public"));
+app.get("/manage.html", checkAuth, (req, res) => res.sendFile(path.join(__dirname, "public", "manage.html")));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

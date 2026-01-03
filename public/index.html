@@ -10,10 +10,7 @@
 </head>
 <body>
     <nav class="main-nav">
-        <div class="logo">
-            <img src="unnlogo.png" alt="UNN Logo"> 
-            <span>UNN Lost and Found</span>
-        </div>
+        <div class="logo"><img src="unnlogo.png" alt="UNN Logo"> <span>UNN Lost and Found</span></div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="#feed">Found Items</a></li>
@@ -36,25 +33,46 @@
             <em>Found an item? Please bring it to us for registration.</em></p>
         </div>
         <div class="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.2372439167244!2d7.40816917387431!3d6.862145319129994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044e8781e1f6423%3A0x39a971132f99b9a5!2sGS%20Building!5e0!3m2!1sen!2sng!4v1710000000000!5m2!1sen!2sng" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.6934571994273!2d7.4083!3d6.8644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTEnNTEuOCJOIDfCsDI0JzI5LjkiRQ!5e0!3m2!1sen!2sng!4v1700000000000" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/rvJzSKd8YZ88AywB6" target="_blank" class="directions-btn">📍 Get Directions to NAF Office @ GS Building</a>
+        <a href="https://maps.google.com" target="_blank" class="directions-btn">📍 Get Directions to GS Building</a>
     </section>
 
-    <section id="feed">
-        <h2>Recently Found Items</h2>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()">
+    <section id="feed" style="padding: 50px 5%;">
+        <h2 style="text-align:center; margin-bottom:30px;">Recently Found Items</h2>
+        <div class="search-wrapper" style="max-width: 600px; margin: 0 auto 40px auto;">
+            <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()" style="width:100%; padding:15px; border-radius:30px; border:2px solid #2e7d32; outline:none;">
         </div>
         <div id="itemsGrid" class="items-grid"></div>
-        
-        <section id="claimedSection" style="margin-top: 50px; opacity: 0.7;">
-            <h2 style="color: #666;">Successfully Claimed Items</h2>
+
+        <section id="claimedSection" style="margin-top: 80px; opacity: 0.6;">
+            <h2 style="color: #666; text-align:center;">Successfully Claimed Items</h2>
             <div id="claimedGrid" class="items-grid"></div>
         </section>
     </section>
 
-    <footer style="text-align: center; padding: 20px; color: #666;">
+    <div id="reserveModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="color:#2e7d32">Reserve: <span id="modalItemName"></span></h2>
+            <form id="reserveForm">
+                <input type="hidden" id="resItemId">
+                <input type="hidden" id="resItemTitle">
+                <input type="text" id="resFullName" placeholder="Full Name" required>
+                <input type="email" id="resEmail" placeholder="Email Address" required>
+                <input type="tel" id="resPhone" placeholder="Phone Number" required>
+                <select id="resUserType" required>
+                    <option value="">Select User Type</option>
+                    <option value="Student">Student</option>
+                    <option value="Staff">Staff</option>
+                </select>
+                <textarea id="resComment" placeholder="Message to Admin" rows="3" required></textarea>
+                <button type="submit" class="directions-btn" style="width:100%; border:none; cursor:pointer; margin-top:10px;">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 40px; color: #666;">
         <p>© 2026 UNN RoarHub IT Project - built by Nduka Anthony Annaelechukwu</p>
     </footer>
 </body>
