@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNN Lost and Found</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="script.js" defer></script>
 </head>
@@ -33,60 +32,29 @@
 
     <section class="info-hub">
         <div class="site-notification">
-            <p><strong>Found your item?</strong> Visit <strong>UNN LAF Office @ GS Building (9 AM - 4 PM)</strong> with your ID. <br>
+            <p><strong>Found your item?</strong> Visit <strong>GS Building (9 AM - 4 PM)</strong> with your ID. <br>
             <em>Found an item? Please bring it to us for registration.</em></p>
         </div>
-        
         <div class="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.231265886445!2d7.406380674288059!3d6.86226991911467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044e8781ce3dcb9%3A0x34a939132fa6b9a5!2sGS%20Building!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.2372439167244!2d7.40816917387431!3d6.862145319129994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044e8781e1f6423%3A0x39a971132f99b9a5!2sGS%20Building!5e0!3m2!1sen!2sng!4v1710000000000!5m2!1sen!2sng" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-
-        <a href="https://maps.app.goo.gl/YourExactLink" target="_blank" class="directions-btn">📍 Get Directions to UNN LAF Office @ GS Building</a>
+        <a href="https://maps.app.goo.gl/YourActualGSLink" target="_blank" class="directions-btn">📍 Get Directions to GS Building</a>
     </section>
 
     <section id="feed">
         <h2>Recently Found Items</h2>
         <div class="search-container">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()">
-            </div>
+            <input type="text" id="searchInput" placeholder="Search for an item..." onkeyup="searchItems()">
         </div>
-
         <div id="itemsGrid" class="items-grid"></div>
-
+        
         <section id="claimedSection" style="margin-top: 50px; opacity: 0.7;">
             <h2 style="color: #666;">Successfully Claimed Items</h2>
             <div id="claimedGrid" class="items-grid"></div>
         </section>
-        
-        <p id="noResults" style="display: none; text-align: center;">No items match your search.</p>
     </section>
 
-    <div id="reserveModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 style="color:#2e7d32">Reserve: <span id="modalItemName"></span></h2>
-            <form id="reserveForm">
-                <input type="hidden" id="resItemId">
-                <input type="hidden" id="resItemTitle">
-                <input type="text" id="resFullName" placeholder="Full Name" required>
-                <input type="email" id="resEmail" placeholder="Email Address" required>
-                <input type="tel" id="resPhone" placeholder="Phone Number" required>
-                <select id="resUserType" required>
-                    <option value="">User Type</option>
-                    <option value="Student">Student</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Graduate">Graduate</option>
-                    <option value="Post-Graduate">Post Graduate</option>
-                    <option value="Other">Other</option>
-                </select>
-                <textarea id="resComment" placeholder="Message to Admin..." rows="3" required></textarea>
-                <button type="submit" class="directions-btn" style="width:100%; border:none; cursor:pointer;">Confirm Reservation</button>
-            </form>
-        </div>
-    </div>
-
-    <footer style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9rem; padding: 20px;">
+    <footer style="text-align: center; padding: 20px; color: #666;">
         <p>© 2026 UNN RoarHub IT Project - built by Nduka Anthony Annaelechukwu</p>
     </footer>
 </body>

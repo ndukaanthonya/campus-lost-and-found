@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-// --- 1. Middleware ---
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,12 +17,12 @@ app.use(session({
     cookie: { maxAge: 3600000 } 
 }));
 
-// --- 2. Database Connection ---
+// Database Connection
 mongoose.connect("mongodb+srv://ndukaanthonya:ITNAA2026@cluster0.xksjxbb.mongodb.net/?appName=Cluster0")
   .then(() => console.log("Connected to UNN Database"))
   .catch(err => console.log("DB Connection Error:", err));
 
-// --- 3. Schemas & Models ---
+// Schemas
 const itemSchema = new mongoose.Schema({
     name: { type: String, required: true },
     iconClass: String,
@@ -33,46 +33,24 @@ const itemSchema = new mongoose.Schema({
 });
 const Item = mongoose.model("Item", itemSchema);
 
-const reserveSchema = new mongoose.Schema({
-    itemId: String,
-    itemName: String,
-    fullName: String,
-    email: String,
-    phone: String,
-    userType: String,
-    comment: String,
-    dateSent: { type: Date, default: Date.now }
-});
-const Reservation = mongoose.model("Reservation", reserveSchema);
-
 const Admin = mongoose.model("Admin", new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 }));
 
-// --- 4. Routes ---
-
-// Reservation Route (JSON Response)
-app.post("/api/reserve", async (req, res) => {
+// Setup Route (Run once if needed)
+app.get("/setup-admin", async (req, res) => {
     try {
-        const newRes = new Reservation(req.body);
-        await newRes.save();
-        res.status(200).json({ success: true, message: "Reservation saved" });
-    } catch (err) { res.status(500).json({ success: false }); }
-});
-
-// Admin view reservations
-app.get("/api/reservations", async (req, res) => {
-    try {
-        const resList = await Reservation.find({}).sort({ dateSent: -1 });
-        res.json(resList);
+        const hashedPassword = await bcrypt.hash("MrIzu2026", 10);
+        await Admin.deleteMany({ username: "admin" });
+        const newAdmin = new Admin({ username: "admin", password: hashedPassword });
+        await newAdmin.save();
+        res.send("Admin created successfully.");
     } catch (err) { res.status(500).send(err); }
 });
 
-// Serve static files
 app.use(express.static("public"));
 
-// Auth Gatekeeper
 function checkAuth(req, res, next) {
     if (req.session.isAdmin) next();
     else res.redirect("/login.html");
@@ -93,7 +71,7 @@ app.get("/manage.html", checkAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "manage.html"));
 });
 
-// API CRUD
+// API Routes
 app.post("/api/report", checkAuth, async (req, res) => {
     const newItem = new Item(req.body);
     await newItem.save();
