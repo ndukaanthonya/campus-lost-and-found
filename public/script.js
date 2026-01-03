@@ -68,3 +68,35 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
     });
 });
+document.getElementById('lostItemForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const itemData = {
+        name: document.getElementById('itemName').value,
+        location: document.getElementById('location').value,
+        date: document.getElementById('lostDate').value,
+        iconClass: document.getElementById('iconClass')?.value || 'fa-box'
+    };
+
+    console.log("Sending data:", itemData); // This helps you debug in the browser console
+
+    try {
+        const response = await fetch('/api/report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(itemData)
+        });
+
+        if (response.ok) {
+            alert("Item published successfully!");
+            document.getElementById('lostItemForm').reset();
+            loadItems(); // Refresh the list below
+        } else {
+            const errorData = await response.json();
+            alert("Error: " + (errorData.message || "Could not save item"));
+        }
+    } catch (err) {
+        console.error("Submission failed:", err);
+        alert("Failed to connect to server.");
+    }
+});
